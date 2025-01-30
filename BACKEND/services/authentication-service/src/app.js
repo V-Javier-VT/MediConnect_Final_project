@@ -1,23 +1,22 @@
-require('dotenv').config(); // Cargar variables de entorno desde .env
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const pool = require('./database'); // Conexión a PostgreSQL
-const authRoutes = require('./routes/auth.routes'); // Rutas de autenticación
+const pool = require('./database');
+const authRoutes = require('./routes/auth.routes');
 
-// Inicializar la aplicación de Express
 const app = express();
 
 // Middlewares
-app.use(cors()); // Habilitar CORS
-app.use(express.json()); // Parsear cuerpos JSON
+app.use(cors());
+app.use(express.json());
 
-// Verificar conexión a la base de datos PostgreSQL
+// Verificar conexión a PostgreSQL al inicio
 pool.connect((err, client, release) => {
     if (err) {
-        console.error('Error al conectar a PostgreSQL:', err);
+        console.error('❌ Error al conectar a PostgreSQL:', err);
     } else {
-        console.log('Conexión exitosa a PostgreSQL en Amazon RDS');
-        release(); // Liberar el cliente
+        console.log('✅ Conexión exitosa a PostgreSQL en Amazon RDS');
+        release();
     }
 });
 
