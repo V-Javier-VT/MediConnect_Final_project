@@ -1,53 +1,53 @@
 <?php
 class Appointment {
-    private $pg_conn;
-    private $mysql_conn;
+    private $conn_pg;
+    private $conn_mysql;
     private $table = "appointments";
 
-    public $id;
-    public $patient_id;
-    public $doctor_id;
-    public $appointment_date;
-    public $status;
-
-    public function __construct($pg_db, $mysql_db) {
-        $this->pg_conn = $pg_db;
-        $this->mysql_conn = $mysql_db;
+    public function __construct($db_pg, $db_mysql) {
+        $this->conn_pg = $db_pg;
+        $this->conn_mysql = $db_mysql;
     }
 
-    public function validatePatientAndDoctor() {
-        // Verificar si el paciente existe en MySQL
-        $patient_query = "SELECT id FROM patients WHERE id = :patient_id";
-        $stmt = $this->mysql_conn->prepare($patient_query);
-        $stmt->bindParam(":patient_id", $this->patient_id);
-        $stmt->execute();
-        if ($stmt->rowCount() === 0) {
-            return "Paciente no encontrado en la base de datos.";
+    public function createAppointment($doctor_name, $patient_name, $appointment_date, $status) {
+        // Obtener el ID del doctor desde MySQL
+        $doctorQuery = "SELECT id FROM doctors WHERE name = :doctor_name";
+        $stmtDoctor = $this->conn_mysql->prepare($doctorQuery);
+        $stmtDoctor->bindParam(':doctor_name', $doctor_name);
+        $stmtDoctor->execute();
+        $doctor = $stmtDoctor->fetch(PDO::FETCH_ASSOC);
+
+        if (!$doctor) {
+            return ["error" => "El doctor '$doctor_name' no existe"];
         }
+        $doctor_id = $doctor['id'];
 
-        // Verificar si el doctor existe en MySQL
-        $doctor_query = "SELECT id FROM doctors WHERE id = :doctor_id";
-        $stmt = $this->mysql_conn->prepare($doctor_query);
-        $stmt->bindParam(":doctor_id", $this->doctor_id);
-        $stmt->execute();
-        if ($stmt->rowCount() === 0) {
-            return "Doctor no encontrado en la base de datos.";
+        // Obtener el ID del paciente desde MySQL
+        $patientQuery = "SELECT id FROM patients WHERE name = :patient_name";
+        $stmtPatient = $this->conn_mysql->prepare($patientQuery);
+        $stmtPatient->bindParam(':patient_name', $patient_name);
+        $stmtPatient->execute();
+        $patient = $stmtPatient->fetch(PDO::FETCH_ASSOC);
+
+        if (!$patient) {
+            return ["error" => "El paciente '$patient_name' no existe"];
         }
+        $patient_id = $patient['id'];
 
-        return true;
-    }
+        // Insertar la cita en PostgreSQL
+        $query = "INSERT INTO " . $this->table . " (doctor_id, patient_id, appointment_date, status) 
+                  VALUES (:doctor_id, :patient_id, :appointment_date, :status) RETURNING id";
+        $stmt = $this->conn_pg->prepare($query);
+        
+        $stmt->bindParam(':doctor_id', $doctor_id);
+        $stmt->bindParam(':patient_id', $patient_id);
+        $stmt->bindParam(':appointment_date', $appointment_date);
+        $stmt->bindParam(':status', $status);
 
-    public function create() {
-        $query = "INSERT INTO " . $this->table . " (patient_id, doctor_id, appointment_date, status) 
-                  VALUES (:patient_id, :doctor_id, :appointment_date, :status)";
-        $stmt = $this->pg_conn->prepare($query);
-
-        $stmt->bindParam(":patient_id", $this->patient_id);
-        $stmt->bindParam(":doctor_id", $this->doctor_id);
-        $stmt->bindParam(":appointment_date", $this->appointment_date);
-        $stmt->bindParam(":status", $this->status);
-
-        return $stmt->execute();
+        if ($stmt->execute()) {
+            return ["id" => $stmt->fetch(PDO::FETCH_ASSOC)['id']];
+        }
+        return ["error" => "Error al crear la cita"];
     }
 }
 ?>

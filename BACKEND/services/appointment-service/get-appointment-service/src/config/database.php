@@ -27,6 +27,7 @@ class Database {
         $this->mysql_password = $_ENV['MYSQL_PASSWORD'];
     }
 
+    // Método para conectar a PostgreSQL
     public function connectPostgres() {
         try {
             $dsn = "pgsql:host={$this->pg_host};port={$this->pg_port};dbname={$this->pg_db}";
@@ -40,6 +41,7 @@ class Database {
         }
     }
 
+    // ✅ Método para conectar a MySQL
     public function connectMySQL() {
         try {
             $dsn = "mysql:host={$this->mysql_host};dbname={$this->mysql_db};charset=utf8";
