@@ -22,10 +22,10 @@ def login_page():
                 if response.status_code == 200:
                     response_data = response.json()
                     st.success("Inicio de sesión exitoso")
-                    st.json(response_data)  # Muestra la respuesta del servidor
+                   #t.json(response_data) Muestra la respuesta del servidor
                     
                     # Guardar respuesta en una cookie
-                    st.experimental_set_query_params(token=response_data.get("token"))
+                    st.query_params["token"] = response_data.get("token")
                 else:
                     st.error(f"Error: {response.status_code} - {response.text}")
             except requests.exceptions.RequestException as e:
