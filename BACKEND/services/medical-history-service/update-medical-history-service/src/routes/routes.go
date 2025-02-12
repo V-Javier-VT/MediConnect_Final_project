@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"update-medical-history-service/controllers"
+	"update-medical-history-service/src/controllers"
 
 	"github.com/gin-gonic/gin"
 )

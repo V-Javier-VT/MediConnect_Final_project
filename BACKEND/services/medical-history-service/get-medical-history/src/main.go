@@ -1,22 +1,19 @@
 package main
 
 import (
-	"create-medical-history-service/src/config"
-	"create-medical-history-service/src/routes"
 	"fmt"
+	"get-medical-history-service/src/routes"
 	"os"
 )
 
 func main() {
-	config.ConnectDB()
-
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "7002" // Puerto por defecto para este microservicio
+		port = "7002" // Puerto por defecto para GET
 	}
 
-	fmt.Println("🩺 Microservicio de Obtener Historia Clínica corriendo en el puerto", port)
-
 	r := routes.SetupRouter()
+
+	fmt.Println("🚀 Microservicio de obtención de historial médico corriendo en el puerto:", port)
 	r.Run(":" + port)
 }

@@ -9,7 +9,12 @@ module.exports = (req, res, next) => {
 
     try {
         const verified = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = verified; // Guardamos los datos del usuario en req.user
+        req.user = verified;
+
+        if (req.user.role !== 'admin') {
+            return res.status(403).json({ message: "Acceso denegado. No tienes permisos." });
+        }
+
         next(); // Continúa con la siguiente función en la ruta
     } catch (error) {
         res.status(400).json({ message: "Token inválido" });

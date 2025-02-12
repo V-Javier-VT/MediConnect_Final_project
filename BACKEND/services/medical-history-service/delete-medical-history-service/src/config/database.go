@@ -51,6 +51,17 @@ func ConnectMedicalHistoryDB() *gorm.DB {
 	return db
 }
 
+// Función para cerrar la conexión de la base de datos
+func CloseDB(db *gorm.DB) {
+	sqlDB, err := db.DB()
+	if err != nil {
+		log.Println("❌ Error al cerrar la conexión de la base de datos:", err)
+		return
+	}
+	sqlDB.Close()
+	fmt.Println("✅ Conexión a la base de datos cerrada correctamente")
+}
+
 // Conexión a la base de datos de pacientes (MySQL)
 func ConnectPatientsDB() *gorm.DB {
 	LoadEnv()

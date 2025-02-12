@@ -8,6 +8,6 @@ import (
 
 func SetupRouter() *gin.Engine {
 	r := gin.Default()
-	r.POST("/medical-history/create", controllers.CreateMedicalHistory)
+	r.POST("/medical-history", controllers.CreateMedicalHistory)
 	return r
 }

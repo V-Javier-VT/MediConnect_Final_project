@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"create-medical-history-service/src/controllers"
+	"get-medical-history-service/src/controllers"
 
 	"github.com/gin-gonic/gin"
 )
@@ -9,7 +9,7 @@ import (
 func SetupRouter() *gin.Engine {
 	r := gin.Default()
 
-	r.GET("/medical-history/:id", controllers.GetMedicalHistoryByID)
+	r.GET("/medical-history", controllers.GetMedicalHistories)
 
 	return r
 }

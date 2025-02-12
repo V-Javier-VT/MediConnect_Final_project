@@ -13,7 +13,12 @@ const User = {
     },
 
     async validatePassword(password, hashedPassword) {
-        return bcrypt.compare(password, hashedPassword);
+        try {
+            return await bcrypt.compare(password, hashedPassword);
+        } catch (error) {
+            console.error("Error validando contraseña:", error);
+            return false;
+        }
     }
 };
 
