@@ -27,8 +27,8 @@ RUN chmod 644 /var/www/html/.env
 RUN echo "error_reporting = E_ALL & ~E_WARNING & ~E_NOTICE" >> /usr/local/etc/php/php.ini
 RUN echo "display_errors = Off" >> /usr/local/etc/php/php.ini
 
-# Exponer el puerto en el contenedor
-EXPOSE 5001
+# Expone el puerto en el contenedor
+EXPOSE 5002
 
-# Comando para iniciar el servidor embebido de PHP en el puerto 5001
-CMD ["php", "-S", "0.0.0.0:5001", "-t", "public"]
+# Comando para iniciar el servidor embebido de PHP en el puerto 5002
+CMD ["php", "-S", "0.0.0.0:5002", "-t", "public"]

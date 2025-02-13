@@ -1,0 +1,105 @@
+# Create Appointment Service
+
+## Descripción
+Este microservicio permite la creación de citas en la base de datos. Está desarrollado en PHP con Slim Framework y utiliza PostgreSQL para almacenar los datos.
+
+## Instalación y Ejecución
+
+### Requisitos Previos
+- Docker instalado
+- PostgreSQL y MySQL configurados
+- Composer instalado
+
+### Construcción del Contenedor
+```sh
+docker build -t create-appointment-service .
+```
+
+### Ejecutar el Contenedor
+```sh
+docker run -d --name create-appointment-service -p 5001:5001 create-appointment-service
+```
+
+### Verificar el Contenedor en Ejecución
+```sh
+docker ps
+```
+
+## Endpoints
+
+### Crear una cita
+**Método:** POST
+
+**URL:**
+```
+http://localhost:5001/create-appointment-service/appointments/create
+```
+
+**Cuerpo de la solicitud:**
+```json
+{
+  "doctor_name": "Dr. Juan Pérez",
+  "patient_name": "Kevin Macas",
+  "appointment_date": "2024-06-15 10:00:00",
+  "status": "pending"
+}
+```
+
+**Respuesta esperada:**
+```json
+{
+  "message": "Cita creada con éxito",
+  "id": 4
+}
+```
+
+Si hay un error:
+```json
+{
+  "error": "No se pudo crear la cita"
+}
+```
+
+## Estructura del Proyecto
+
+```
+📁 create-appointment-service
+ ├── 📂 public
+ │   ├── index.php
+ │
+ ├── 📂 src
+ │   ├── 📂 config
+ │   │   ├── database.php
+ │   │
+ │   ├── 📂 controllers
+ │   │   ├── AppointmentController.php
+ │   │
+ │   ├── 📂 models
+ │   │   ├── Appointment.php
+ │
+ ├── .env
+ ├── Dockerfile
+ ├── composer.json
+ ├── composer.lock
+```
+
+## Solución de Problemas
+
+1. **Error: "could not find driver"**
+   - Asegúrate de que el Dockerfile instala `pdo_mysql` y `pdo_pgsql`.
+   - Recompila la imagen:
+   ```sh
+   docker build --no-cache -t create-appointment-service .
+   ```
+
+2. **El .env no se carga correctamente**
+   - Verifica que `.env` se copie correctamente al contenedor.
+   - Comprueba dentro del contenedor:
+   ```sh
+   docker exec -it create-appointment-service cat /var/www/html/.env
+   ```
+
+3. **No se encuentra la ruta en Postman (404 Not Found)**
+   - Verifica que `index.php` esté configurado correctamente.
+   - Asegúrate de que el servidor PHP está en ejecución dentro del contenedor.
+

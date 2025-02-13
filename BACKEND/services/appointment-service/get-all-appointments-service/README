@@ -1,0 +1,111 @@
+# Get All Appointments Service
+
+## Descripción
+Este microservicio permite obtener todas las citas almacenadas en la base de datos. Está desarrollado en PHP con Slim Framework y utiliza PostgreSQL para almacenar los datos y MySQL para obtener información adicional de doctores y pacientes.
+
+## Instalación y Ejecución
+
+### Requisitos Previos
+- Docker instalado
+- PostgreSQL y MySQL configurados
+- Composer instalado
+
+### Construcción del Contenedor
+```sh
+docker build -t get-all-appointments-service .
+```
+
+### Ejecutar el Contenedor
+```sh
+docker run -d --name get-all-appointments-service -p 5005:5005 get-all-appointments-service
+```
+
+### Verificar el Contenedor en Ejecución
+```sh
+docker ps
+```
+
+## Endpoints
+
+### Obtener todas las citas
+**Método:** GET
+
+**URL:**
+```
+http://localhost:5005/get-all-appointments-service/appointments
+```
+
+**Respuesta esperada:**
+```json
+[
+  {
+    "id": 1,
+    "doctor_id": 3,
+    "doctor_name": "Dr. Juan Pérez",
+    "patient_id": 7,
+    "patient_name": "Kevin Macas",
+    "appointment_date": "2024-06-15 10:00:00",
+    "status": "pending"
+  },
+  {
+    "id": 2,
+    "doctor_id": 5,
+    "doctor_name": "Dra. Ana Gómez",
+    "patient_id": 10,
+    "patient_name": "Carlos López",
+    "appointment_date": "2024-06-16 14:30:00",
+    "status": "confirmed"
+  }
+]
+```
+
+Si no hay citas registradas:
+```json
+{
+  "message": "No hay citas registradas"
+}
+```
+
+## Estructura del Proyecto
+
+```
+📁 get-all-appointments-service
+ ├── 📂 public
+ │   ├── index.php
+ │
+ ├── 📂 src
+ │   ├── 📂 config
+ │   │   ├── database.php
+ │   │
+ │   ├── 📂 controllers
+ │   │   ├── GetAllAppointmentsController.php
+ │   │
+ │   ├── 📂 models
+ │   │   ├── Appointment.php
+ │
+ ├── .env
+ ├── Dockerfile
+ ├── composer.json
+ ├── composer.lock
+```
+
+## Solución de Problemas
+
+1. **Error: "could not find driver"**
+   - Asegúrate de que el Dockerfile instala `pdo_mysql` y `pdo_pgsql`.
+   - Recompila la imagen:
+   ```sh
+   docker build --no-cache -t get-all-appointments-service .
+   ```
+
+2. **El .env no se carga correctamente**
+   - Verifica que `.env` se copie correctamente al contenedor.
+   - Comprueba dentro del contenedor:
+   ```sh
+   docker exec -it get-all-appointments-service cat /var/www/html/.env
+   ```
+
+3. **No se encuentra la ruta en Postman (404 Not Found)**
+   - Verifica que `index.php` esté configurado correctamente.
+   - Asegúrate de que el servidor PHP está en ejecución dentro del contenedor.
+

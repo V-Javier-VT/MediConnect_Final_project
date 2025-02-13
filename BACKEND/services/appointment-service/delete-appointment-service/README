@@ -1,0 +1,103 @@
+# Delete Appointment Service
+
+## Descripción
+Este microservicio permite eliminar citas en la base de datos. Está desarrollado en PHP con Slim Framework y utiliza PostgreSQL para almacenar los datos.
+
+## Instalación y Ejecución
+
+### Requisitos Previos
+- Docker instalado
+- PostgreSQL y MySQL configurados
+- Composer instalado
+
+### Construcción del Contenedor
+```sh
+docker build -t delete-appointment-service .
+```
+
+### Ejecutar el Contenedor
+```sh
+docker run -d --name delete-appointment-service -p 5004:5004 delete-appointment-service
+```
+
+### Verificar el Contenedor en Ejecución
+```sh
+docker ps
+```
+
+## Endpoints
+
+### Eliminar una cita
+**Método:** DELETE
+
+**URL:**
+```
+http://localhost:5004/delete-appointment-service/appointments/delete/{id}
+```
+
+**Parámetros:**
+- `id`: ID de la cita a eliminar
+
+**Ejemplo de solicitud:**
+```json
+DELETE http://localhost:5004/delete-appointment-service/appointments/delete/4
+```
+
+**Respuesta esperada:**
+
+{
+  "message": "Cita eliminada correctamente"
+}
+
+
+Si la cita no existe:
+
+{
+  "error": "La cita con ID 4 no existe"
+}
+
+
+
+## Estructura del Proyecto
+
+```
+📁 delete-appointment-service
+ ├── 📂 public
+ │   ├── index.php
+ │
+ ├── 📂 src
+ │   ├── 📂 config
+ │   │   ├── database.php
+ │   │
+ │   ├── 📂 controllers
+ │   │   ├── DeleteAppointmentController.php
+ │   │
+ │   ├── 📂 models
+ │   │   ├── Appointment.php
+ │
+ ├── .env
+ ├── Dockerfile
+ ├── composer.json
+ ├── composer.lock
+```
+
+## Solución de Problemas
+
+1. **Error: "could not find driver"**
+   - Asegúrate de que el Dockerfile instala `pdo_mysql` y `pdo_pgsql`.
+   - Recompila la imagen:
+   ```sh
+   docker build --no-cache -t delete-appointment-service .
+   ```
+
+2. **El .env no se carga correctamente**
+   - Verifica que `.env` se copie correctamente al contenedor.
+   - Comprueba dentro del contenedor:
+   ```sh
+   docker exec -it delete-appointment-service cat /var/www/html/.env
+   ```
+
+3. **No se encuentra la ruta en Postman (404 Not Found)**
+   - Verifica que `index.php` esté configurado correctamente.
+   - Asegúrate de que el servidor PHP está en ejecución dentro del contenedor.
+

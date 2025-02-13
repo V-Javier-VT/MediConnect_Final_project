@@ -28,7 +28,7 @@ RUN echo "error_reporting = E_ALL & ~E_WARNING & ~E_NOTICE" >> /usr/local/etc/ph
 RUN echo "display_errors = Off" >> /usr/local/etc/php/php.ini
 
 # Exponer el puerto en el contenedor
-EXPOSE 5001
+EXPOSE 5004
 
-# Comando para iniciar el servidor embebido de PHP en el puerto 5001
-CMD ["php", "-S", "0.0.0.0:5001", "-t", "public"]
+# Comando para iniciar el servidor embebido de PHP en el puerto 5004
+CMD ["php", "-S", "0.0.0.0:5004", "-t", "public"]

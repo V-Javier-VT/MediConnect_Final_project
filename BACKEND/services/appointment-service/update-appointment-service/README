@@ -1,0 +1,80 @@
+
+## Update Appointment Service
+
+Este microservicio permite actualizar una cita en la base de datos. Forma parte del sistema de gestión de citas médicas.
+
+### Requisitos previos
+
+Antes de ejecutar este microservicio, asegúrate de tener instalados los siguientes programas:
+
+- Docker  
+- PHP 8.1 o superior  
+- Composer  
+- PostgreSQL y MySQL en ejecución  
+
+### Instalación y ejecución con Docker  
+
+#### 1. Construir la imagen de Docker  
+Ejecuta el siguiente comando en la raíz del microservicio:  
+
+```sh
+docker build -t update-appointment-service .
+```
+
+#### 2. Ejecutar el contenedor  
+
+```sh
+docker run -p 5003:5003 --name update-appointment-service update-appointment-service
+```
+
+### Estructura del Proyecto  
+
+```
+/update-appointment-service
+├── public/
+│   ├── index.php
+├── src/
+│   ├── config/
+│   │   ├── database.php
+│   ├── controllers/
+│   │   ├── UpdateAppointmentController.php
+│   ├── models/
+│   │   ├── Appointment.php
+├── .env
+├── composer.json
+├── composer.lock
+├── Dockerfile
+```
+
+### Endpoints disponibles  
+
+#### Actualizar una cita  
+- **Método:** `PUT`  
+- **URL:** `/update-appointment-service/appointments/update/{id}`  
+- **Descripción:** Actualiza los datos de una cita existente.  
+
+**Ejemplo de solicitud:**  
+
+```json
+{
+  "doctor_name": "Dr. Juan Pérez",
+  "patient_name": "Kevin Macas",
+  "appointment_date": "2025-06-15 10:00:00",
+  "status": "confirmed"
+}
+```
+
+**Ejemplo de solicitud con cURL:**  
+
+```sh
+curl -X PUT "http://localhost:5003/update-appointment-service/appointments/update/1" \
+  -H "Content-Type: application/json" \
+  -d '{"doctor_name": "Dr. Juan Pérez", "patient_name": "Kevin Macas", "appointment_date": "2025-06-15 10:00:00", "status": "confirmed"}'
+```
+
+### Notas adicionales  
+
+- Es necesario contar con un archivo **.env** correctamente configurado con las credenciales de las bases de datos.  
+- Asegúrate de que los servicios de **PostgreSQL** y **MySQL** estén en ejecución antes de iniciar el microservicio.  
+- Para evitar la visualización de warnings en producción, se han configurado los ajustes en `php.ini`.  
+- Si la cita no existe, se devolverá un mensaje de error indicando que no se encontró.  

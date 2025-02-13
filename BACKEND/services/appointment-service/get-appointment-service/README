@@ -1,0 +1,72 @@
+
+### **README.md**
+```markdown
+# Get Appointment Service
+
+Este microservicio permite obtener información de una cita específica desde la base de datos.
+
+## Requisitos previos
+
+Antes de ejecutar este microservicio, asegúrate de tener instalados los siguientes programas:
+
+- Docker
+- PHP 8.1 o superior
+- Composer
+- PostgreSQL y MySQL en ejecución
+
+## Instalación y ejecución con Docker
+
+### 1. Construir la imagen de Docker
+Ejecuta el siguiente comando en la raíz del microservicio:
+```sh
+docker build -t get-appointment-service .
+```
+
+### 2. Ejecutar el contenedor
+```sh
+docker run -p 5002:5002 --env-file .env get-appointment-service
+```
+
+## Estructura del Proyecto
+```
+/get-appointment-service
+│── public/
+│   ├── index.php
+│── src/
+│   ├── config/
+│   │   ├── database.php
+│   ├── controllers/
+│   │   ├── GetAppointmentController.php
+│   ├── models/
+│   │   ├── Appointment.php
+│── .env
+│── composer.json
+│── composer.lock
+│── Dockerfile
+```
+
+## Endpoints disponibles
+
+### Obtener una cita por ID
+- **Método:** `GET`
+- **URL:** `/get-appointment-service/appointments/get/{id}`
+- **Descripción:** Recupera los detalles de una cita específica mediante su ID.
+
+#### Ejemplo de respuesta:
+```json
+{
+    "id": 1,
+    "doctor_name": "Dr. Juan Pérez",
+    "patient_name": "Kevin Macas",
+    "appointment_date": "2025-06-15 10:00:00",
+    "status": "pending"
+}
+```
+
+## Notas adicionales
+- Es necesario contar con un archivo **.env** correctamente configurado con las credenciales de las bases de datos.
+- Asegúrate de que los servicios de **PostgreSQL** y **MySQL** estén en ejecución antes de iniciar el microservicio.
+- Para evitar la visualización de warnings en producción, se han configurado los ajustes en `php.ini`.
+- Si la cita no existe, se devolverá un mensaje de error indicando que no se encontró.
+
+```
