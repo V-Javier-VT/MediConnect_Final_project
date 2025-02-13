@@ -13,7 +13,7 @@ app.use(cors());
 app.use('/auth', authRoutes);
 app.use('/admin', protectedRoutes);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 1001;
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en el puerto ${PORT}`);
 });

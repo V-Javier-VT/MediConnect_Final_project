@@ -1,0 +1,83 @@
+## Auth User Service
+
+Este microservicio permite la autenticación y autorización de usuarios en el sistema de gestión de citas médicas.
+
+## Requisitos previos
+
+Antes de ejecutar este microservicio, asegúrate de tener instalados los siguientes programas:
+
+- Docker
+- Node.js 14 o superior
+- MySQL en ejecución
+
+## Instalación y ejecución con Docker
+
+### 1. Construir la imagen de Docker
+Ejecuta el siguiente comando en la raíz del microservicio:
+
+```sh
+docker build -t auth-user-service .
+```
+
+### 2. Ejecutar el contenedor
+
+```sh
+docker run -p 1001:1001 --name auth-user-service auth-user-service
+```
+
+## Uso del microservicio
+
+### Autenticación de usuario
+
+**Endpoint:** `POST /auth/login`
+
+**Ejemplo de solicitud:**
+
+```json
+{
+  "email": "usuario@example.com",
+  "password": "contraseña123"
+}
+```
+
+**Ejemplo de solicitud con cURL:**
+
+```sh
+curl -X POST "http://localhost:1001/auth/login" \
+  -H "Content-Type: application/json" \
+  -d '{"email": "usuario@example.com", "password": "contraseña123"}'
+```
+
+### Acceso a rutas protegidas
+
+**Endpoint:** `GET /admin/protected`
+
+Este endpoint requiere un token JWT válido en el encabezado de autorización.
+
+## Detener y eliminar el contenedor
+
+Para detener el contenedor:
+
+```sh
+docker stop auth-user-service
+```
+
+Para eliminar el contenedor:
+
+```sh
+docker rm auth-user-service
+```
+
+Para eliminar la imagen:
+
+```sh
+docker rmi auth-user-service
+```
+
+## Notas adicionales
+
+- Asegúrate de que MySQL esté en ejecución antes de probar el servicio.
+- El archivo `.env` debe configurarse correctamente con las credenciales de MySQL y la clave JWT.
+- Variables de entorno necesarias en `.env`:
+- Si las credenciales son incorrectas, se devolverá un mensaje de error indicando que la autenticación falló.
+
