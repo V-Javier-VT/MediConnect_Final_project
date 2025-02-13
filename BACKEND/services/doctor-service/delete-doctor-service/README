@@ -1,0 +1,66 @@
+# Delete Doctor Service
+
+Este microservicio permite eliminar un doctor de la base de datos. Forma parte del sistema de gestión de doctores.
+
+## Requisitos previos
+
+Antes de ejecutar este microservicio, asegúrate de tener instalados los siguientes programas:
+
+- Docker
+- Python 3.10 o superior
+- MySQL en ejecución
+
+## Instalación y ejecución con Docker
+
+### 1. Construir la imagen de Docker
+Ejecuta el siguiente comando en la raíz del microservicio:
+
+```sh
+docker build -t delete-doctor-service .
+```
+
+### 2. Ejecutar el contenedor
+
+```sh
+docker run -p 4005:4005 --name delete-doctor-service delete-doctor-service
+```
+
+## Uso del microservicio
+
+### Eliminar un doctor
+
+**Endpoint:** `DELETE /api/doctors/{doctor_id}`
+
+**Ejemplo de solicitud con cURL:**
+
+```sh
+curl -X DELETE "http://localhost:4005/api/doctors/1" \
+  -H "Content-Type: application/json"
+```
+
+## Detener y eliminar el contenedor
+
+Para detener el contenedor:
+
+```sh
+docker stop delete-doctor-service
+```
+
+Para eliminar el contenedor:
+
+```sh
+docker rm delete-doctor-service
+```
+
+Para eliminar la imagen:
+
+```sh
+docker rmi delete-doctor-service
+```
+
+## Notas adicionales
+
+- Asegúrate de que la base de datos esté en ejecución antes de probar el servicio.
+- El archivo `.env` debe configurarse correctamente con las credenciales de MySQL.
+- Si el doctor no existe, el servicio devolverá un error indicando que no se encontró.
+

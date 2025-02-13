@@ -1,0 +1,81 @@
+# Create Doctor Service
+
+Este microservicio permite registrar nuevos doctores en la base de datos. Forma parte del sistema de gestión de citas médicas.
+
+## Requisitos previos
+
+Antes de ejecutar este microservicio, asegúrate de tener instalados los siguientes programas:
+
+- Docker
+- Python 3.10 o superior
+- FastAPI
+- Uvicorn
+- MySQL en ejecución
+
+## Instalación y ejecución con Docker
+
+### 1. Construir la imagen de Docker
+Ejecuta el siguiente comando en la raíz del microservicio:
+
+```sh
+docker build -t create-doctor-service .
+```
+
+### 2. Ejecutar el contenedor
+
+```sh
+docker run -p 4001:4001 --name create-doctor-service create-doctor-service
+```
+
+## Uso del microservicio
+
+### Registrar un doctor
+
+**Endpoint:** `POST /api/doctors`
+
+**Ejemplo de solicitud:**
+
+```json
+{
+  "name": "Dr. Juan Pérez",
+  "specialty": "Cardiología",
+  "email": "juan.perez@example.com"
+}
+```
+
+**Ejemplo de solicitud con cURL:**
+
+```sh
+curl -X POST "http://localhost:4001/api/doctors" \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Dr. Juan Pérez", "specialty": "Cardiología", "email": "juan.perez@example.com"}'
+```
+
+## Detener y eliminar el contenedor
+
+Para detener el contenedor:
+
+```sh
+docker stop create-doctor-service
+```
+
+Para eliminar el contenedor:
+
+```sh
+docker rm create-doctor-service
+```
+
+Para eliminar la imagen:
+
+```sh
+docker rmi create-doctor-service
+```
+
+## Notas adicionales
+
+- Asegúrate de que la base de datos esté en ejecución antes de probar el servicio.
+- El archivo `.env` debe configurarse correctamente con las credenciales de MySQL.
+- Para desarrollar localmente sin Docker, puedes ejecutar el servicio con:
+  ```sh
+  uvicorn src.app:app --host 0.0.0.0 --port 4001 --reload
+  ```

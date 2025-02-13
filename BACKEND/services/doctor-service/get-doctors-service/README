@@ -1,0 +1,77 @@
+# Get Doctors Service
+
+Este microservicio permite obtener una lista de médicos desde la base de datos. Forma parte del sistema de gestión de citas médicas.
+
+## Requisitos previos
+
+Antes de ejecutar este microservicio, asegúrate de tener instalados los siguientes programas:
+
+- Docker
+- Python 3.10 o superior
+- MySQL en ejecución
+
+## Instalación y ejecución con Docker
+
+### 1. Construir la imagen de Docker
+Ejecuta el siguiente comando en la raíz del microservicio:
+
+```sh
+docker build -t get-doctors-service .
+```
+
+### 2. Ejecutar el contenedor
+
+```sh
+docker run -p 4002:4002 --name get-doctors-service get-doctors-service
+```
+
+## Uso del microservicio
+
+### Obtener lista de médicos
+
+**Endpoint:** `GET /api/doctors`
+
+**Ejemplo de respuesta:**
+
+```json
+[
+  {
+    "id": 1,
+    "name": "Dr. Juan Pérez",
+    "specialty": "Cardiología",
+    "email": "juan.perez@example.com"
+  },
+  {
+    "id": 2,
+    "name": "Dra. María Gómez",
+    "specialty": "Pediatría",
+    "email": "maria.gomez@example.com"
+  }
+]
+```
+
+## Detener y eliminar el contenedor
+
+Para detener el contenedor:
+
+```sh
+docker stop get-doctors-service
+```
+
+Para eliminar el contenedor:
+
+```sh
+docker rm get-doctors-service
+```
+
+Para eliminar la imagen:
+
+```sh
+docker rmi get-doctors-service
+```
+
+## Notas adicionales
+
+- Asegúrate de que la base de datos esté en ejecución antes de probar el servicio.
+- El archivo `.env` debe configurarse correctamente con las credenciales de MySQL.
+

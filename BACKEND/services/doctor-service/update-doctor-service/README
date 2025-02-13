@@ -1,0 +1,71 @@
+# Update Doctor Service
+
+Este microservicio proporciona una API REST para actualizar la información de un doctor en la base de datos.
+
+## Tecnologías utilizadas
+- Python 3.10
+- FastAPI
+- SQLAlchemy
+- MySQL
+- Uvicorn
+- Pydantic
+- Dotenv
+
+
+### . Navegar al directorio del servicio
+```sh
+cd services/doctor-service/update-doctor-service
+```
+
+
+### . Instalar dependencias
+Usar `pip` para instalar las dependencias necesarias.
+```sh
+pip install -r requirements.txt
+```
+
+### . Ejecutar la aplicación
+```sh
+uvicorn src.app:app --host 0.0.0.0 --port 4004 --reload
+```
+
+## Uso de la API
+
+### **Actualizar información de un doctor**
+#### **Endpoint:**
+```
+PUT /api/doctors/{doctor_id}
+```
+
+#### **Request Body:**
+```json
+{
+  "name": "Nuevo Nombre",
+  "specialty": "Nueva Especialidad",
+  "email": "nuevoemail@example.com"
+}
+```
+
+#### **Respuestas:**
+- **200 OK:** Doctor actualizado exitosamente
+- **404 Not Found:** Doctor no encontrado
+- **400 Bad Request:** El email ya está en uso por otro doctor
+
+## Docker
+
+### Construcción de la imagen
+```sh
+docker build -t update-doctor-service .
+```
+
+### Ejecutar el contenedor
+```sh
+docker run -p 4004:4004 --name update-doctor-service update-doctor-service
+```
+
+## Contribución
+Si deseas contribuir a este microservicio, por favor realiza un fork del repositorio y crea un pull request con tus cambios.
+
+## Licencia
+Este proyecto está bajo la licencia MIT.
+

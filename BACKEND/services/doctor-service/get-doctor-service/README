@@ -1,0 +1,77 @@
+
+# Get Doctor Service
+
+Este microservicio permite obtener la información de un médico específico desde la base de datos. Forma parte del sistema de gestión de doctores.
+
+## 📌 Requisitos previos
+
+Antes de ejecutar este microservicio, asegúrate de tener instalados los siguientes programas:
+
+- Docker
+- Python 3.10 o superior
+- PostgreSQL o MySQL en ejecución
+- Uvicorn
+- FastAPI
+- SQLAlchemy
+- Dotenv
+
+## 🚀 Instalación y ejecución con Docker
+
+### 1️⃣ Construir la imagen de Docker
+
+Ejecuta el siguiente comando en la raíz del microservicio:
+
+```sh
+docker build -t get-doctor-service .
+```
+
+### 2️⃣ Ejecutar el contenedor
+
+```sh
+docker run -p 4003:4003 --name get-doctor-service get-doctor-service
+```
+
+## 🛠 Uso del microservicio
+
+### Obtener información de un médico por ID
+
+- **Endpoint:** `GET /api/doctors/{doctor_id}`
+- **Descripción:** Recupera los detalles de un médico específico mediante su ID.
+- **Ejemplo de respuesta:**
+
+```json
+{
+  "id": 1,
+  "name": "Dr. Juan Pérez",
+  "specialty": "Cardiología",
+  "email": "juan.perez@email.com"
+}
+```
+
+## 🛑 Detener y eliminar el contenedor
+
+Para detener el contenedor:
+
+```sh
+docker stop get-doctor-service
+```
+
+Para eliminar el contenedor:
+
+```sh
+docker rm get-doctor-service
+```
+
+Para eliminar la imagen:
+
+```sh
+docker rmi get-doctor-service
+```
+
+## 🔍 Notas adicionales
+
+- Asegúrate de que la base de datos esté en ejecución antes de probar el servicio.
+- El archivo `.env` debe configurarse correctamente con las credenciales de la base de datos.
+- Si el médico no existe, se devolverá un mensaje de error indicando que no fue encontrado.
+
+---
