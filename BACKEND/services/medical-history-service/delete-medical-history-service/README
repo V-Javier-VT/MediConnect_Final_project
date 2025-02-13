@@ -1,0 +1,93 @@
+
+# Delete Medical History Service
+
+Este microservicio permite eliminar historiales médicos en una base de datos MariaDB/MySQL. Está desarrollado en **Go** con **Gin** y **GORM**.
+
+## Tecnologías utilizadas
+
+- Go
+- Gin (framework web)
+- GORM (ORM para Go)
+- MariaDB/MySQL
+- Docker
+
+## Instalación y ejecución
+
+### Clonar el repositorio
+
+```sh
+git clone https://github.com/tu-usuario/delete-medical-history-service.git
+cd delete-medical-history-service
+```
+
+### Instalar dependencias
+
+```sh
+go mod tidy
+```
+
+### Ejecutar en modo local
+
+```sh
+go run src/main.go
+```
+
+### Construir y ejecutar con Docker
+
+```sh
+docker build -t delete-medical-history-service .
+docker run -p 7004:7004 delete-medical-history-service
+```
+
+## Endpoints
+
+### Eliminar historial médico por ID
+
+```http
+DELETE /medical-history/:id
+```
+
+Ejemplo con `curl`:
+
+```sh
+curl -X DELETE http://localhost:7004/medical-history/1
+```
+
+### Respuesta esperada
+
+```json
+{
+  "message": "Historial médico eliminado exitosamente"
+}
+```
+
+### Posibles errores
+
+- `404 Not Found`: El historial médico no existe.
+- `500 Internal Server Error`: Error al eliminar el historial.
+
+## Estructura del Proyecto
+
+```
+delete-medical-history-service/
+│── src/
+│   ├── config/                # Configuración de base de datos
+│   ├── controllers/           # Controladores de las rutas
+│   ├── models/                # Modelos de datos (GORM)
+│   ├── routes/                # Definición de rutas
+│   ├── main.go                # Punto de entrada
+│── Dockerfile                  # Archivo para crear la imagen Docker
+│── go.mod                      # Módulo de dependencias
+│── go.sum                      # Checksum de dependencias
+│── README.md                    # Documentación
+```
+
+## Mejoras futuras
+
+- Implementar autenticación y autorización.
+- Registro de logs en una plataforma de monitoreo.
+- Pruebas unitarias y de integración.
+
+## Licencia
+
+Este proyecto está bajo la licencia **MIT**.

@@ -1,17 +1,20 @@
-# Imagen base con Go
-FROM golang:1.20-alpine
+# Usa una imagen oficial de Go como base
+FROM golang:1.23
 
-# Establecer el directorio de trabajo dentro del contenedor
+# Establece el directorio de trabajo dentro del contenedor
 WORKDIR /app
 
-# Copiar archivos del proyecto al contenedor
+# Copia los archivos del proyecto al contenedor
 COPY . .
 
-# Descargar dependencias y compilar la aplicación
-RUN go mod tidy && go build -o main .
+# Descarga las dependencias necesarias
+RUN go mod tidy
 
-# Exponer el puerto definido en el .env
+# Compila la aplicación
+RUN go build -o medical-history-service src/main.go
+
+# Expone el puerto definido en el .env (7001 por defecto)
 EXPOSE 7001
 
 # Comando para ejecutar la aplicación
-CMD ["./main"]
+CMD ["/app/medical-history-service"]

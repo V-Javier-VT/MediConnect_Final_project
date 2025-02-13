@@ -1,0 +1,98 @@
+
+```markdown
+# Get Medical History Service
+
+Este microservicio permite obtener historiales médicos desde una base de datos MariaDB/MySQL. Está desarrollado en **Go** con **Gin** y **GORM**.
+
+## Tecnologías utilizadas
+
+- Go
+- Gin (framework web)
+- GORM (ORM para Go)
+- MariaDB/MySQL
+- PostgreSQL (para algunas consultas adicionales)
+- Docker
+
+## Instalación y ejecución
+
+### Clonar el repositorio
+
+```sh
+git clone https://github.com/tu-usuario/get-medical-history-service.git
+cd get-medical-history-service
+```
+
+### Instalar dependencias
+
+```sh
+go mod tidy
+```
+
+### Ejecutar en modo local
+
+```sh
+go run src/main.go
+```
+
+### Construir y ejecutar con Docker
+
+```sh
+docker build -t get-medical-history-service .
+docker run -p 7002:7002 get-medical-history-service
+```
+
+## Endpoints
+
+### Obtener todos los historiales médicos
+
+```http
+GET /medical-history
+```
+
+Ejemplo con `curl`:
+
+```sh
+curl -X GET http://localhost:7002/medical-history
+```
+
+### Respuesta esperada
+
+```json
+[
+  {
+    "id": 1,
+    "patient_id": 101,
+    "patient_name": "Juan Pérez",
+    "doctor_id": 5,
+    "doctor_name": "Dr. Gómez",
+    "appointment_id": 1001,
+    "diagnosis": "Hipertensión",
+    "treatment": "Medicamentos",
+    "date_created": "2024-02-10T12:00:00Z"
+  }
+]
+```
+
+### Posibles errores
+
+- `500 Internal Server Error`: Error al obtener historiales.
+
+## Estructura del Proyecto
+
+```
+get-medical-history-service/
+│── src/
+│   ├── config/                # Configuración de base de datos
+│   ├── controllers/           # Controladores de las rutas
+│   ├── models/                # Modelos de datos (GORM)
+│   ├── routes/                # Definición de rutas
+│   ├── main.go                # Punto de entrada
+│── Dockerfile                  # Archivo para crear la imagen Docker
+│── go.mod                      # Módulo de dependencias
+│── go.sum                      # Checksum de dependencias
+│── README.md                    # Documentación
+```
+
+
+```
+

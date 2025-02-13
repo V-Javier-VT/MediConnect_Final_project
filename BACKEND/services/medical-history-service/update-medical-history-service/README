@@ -1,0 +1,89 @@
+
+# Update Medical History Service
+
+Este microservicio permite actualizar historiales médicos en una base de datos MariaDB/MySQL. Está desarrollado en **Go** con **Gin** y **GORM**.
+
+## Tecnologías utilizadas
+
+- Go
+- Gin (framework web)
+- GORM (ORM para Go)
+- MariaDB/MySQL
+- Docker
+
+
+### Instalar dependencias
+
+```sh
+go mod tidy
+```
+
+### Ejecutar en modo local
+
+```sh
+go run src/main.go
+```
+
+### Construir y ejecutar con Docker
+
+```sh
+docker build -t update-medical-history-service .
+docker run -p 7003:7003 --env-file .env update-medical-history-service
+```
+
+## Endpoints
+
+### Actualizar historial médico
+
+```http
+PUT /medical-history/:id
+```
+
+#### 📌 Ejemplo de solicitud:
+
+```sh
+curl -X PUT http://localhost:7003/medical-history/1 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "patient_id": 101,
+    "patient_name": "Juan Pérez",
+    "doctor_id": 5,
+    "doctor_name": "Dr. Gómez",
+    "appointment_id": 1001,
+    "diagnosis": "Hipertensión",
+    "treatment": "Medicamentos"
+  }'
+```
+
+#### 📥 Respuesta esperada:
+
+```json
+{
+  "message": "Historial médico actualizado correctamente"
+}
+```
+
+#### ❌ Posibles errores:
+
+- `400 Bad Request`: Datos inválidos o ID incorrecto.
+- `404 Not Found`: El historial médico no existe.
+- `500 Internal Server Error`: Error en la base de datos.
+
+## Estructura del Proyecto
+
+```
+update-medical-history-service/
+│── src/
+│   ├── config/                # Configuración de base de datos
+│   ├── controllers/           # Controladores de las rutas
+│   ├── models/                # Modelos de datos (GORM)
+│   ├── routes/                # Definición de rutas
+│   ├── main.go                # Punto de entrada
+│── Dockerfile                  # Archivo para crear la imagen Docker
+│── go.mod                      # Módulo de dependencias
+│── go.sum                      # Checksum de dependencias
+│── README.md                    # Documentación
+│── .env                         # Variables de entorno
+```
+
+

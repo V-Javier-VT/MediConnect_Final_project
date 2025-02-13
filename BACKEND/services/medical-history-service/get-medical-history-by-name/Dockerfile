@@ -1,3 +1,5 @@
+# Dockerfile
+
 # Etapa de construcción
 FROM golang:1.23.6-alpine AS builder
 
@@ -11,21 +13,21 @@ RUN go mod download
 COPY . .
 
 # Compilar la aplicación
-RUN go build -o /app/get-medical-history-service ./src/main.go
+RUN go build -o get-medical-history-by-name ./src/main.go
 
-# Etapa final (imagen liviana para ejecución)
+# Etapa final (imagen ligera para ejecución)
 FROM alpine:latest
 
 WORKDIR /app
 
 # Copiar el binario desde la etapa de construcción
-COPY --from=builder /app/get-medical-history-service .
+COPY --from=builder /app/get-medical-history-by-name .
 
 # Dar permisos de ejecución
-RUN chmod +x /app/get-medical-history-service
+RUN chmod +x /app/get-medical-history-by-name
 
 # Exponer el puerto del servicio
-EXPOSE 7002
+EXPOSE 7005
 
 # Ejecutar el binario
-CMD ["/app/get-medical-history-service"]
+CMD ["/app/get-medical-history-by-name"]

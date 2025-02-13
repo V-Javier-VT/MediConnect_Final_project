@@ -1,0 +1,70 @@
+# Microservicio de Historial Médico
+
+Este microservicio permite la gestión de historiales médicos dentro de la plataforma. Está desarrollado en **Go** y utiliza el framework **Gin** para manejar las solicitudes HTTP.
+
+## Características
+- Creación de historiales médicos
+- Conexión con bases de datos **MySQL** y **PostgreSQL**
+- Validación de datos antes de la creación del historial médico
+
+## Tecnologías utilizadas
+- **Go (Golang)**
+- **Gin Gonic** (Framework para API REST)
+- **GORM** (ORM para manejar la base de datos)
+- **MySQL** y **PostgreSQL**
+
+## Instalación y configuración
+
+### 1. Clonar el repositorio
+```sh
+    git clone <repositorio>
+    cd medical-history-service
+```
+
+### 3. Ejecutar el servicio localmente
+
+```sh
+    go mod tidy  # Instalar dependencias
+    go run src/main.go  # Ejecutar el servicio
+```
+
+## Uso de la API
+
+### **Crear historial médico**
+
+**Endpoint:** `POST /medical-history`
+
+**Ejemplo de cuerpo de solicitud:**
+```json
+{
+    "patient_name": "Juan Pérez",
+    "doctor_name": "Dra. Martínez",
+    "appointment_id": 123,
+    "diagnosis": "Hipertensión",
+    "treatment": "Dieta baja en sodio"
+}
+```
+
+**Respuesta esperada:**
+```json
+{
+    "message": "Historial médico creado exitosamente",
+    "history_id": 1
+}
+```
+
+## Uso con Docker
+
+### **Construir la imagen**
+```sh
+    docker build -t medical-history-service .
+```
+
+### **Ejecutar el contenedor**
+```sh
+    docker run -p 7001:7001 --name create-medical-history-service --env-file .env create-medical-history-service
+```
+
+## Contacto y contribuciones
+Si deseas contribuir o reportar errores, por favor abre un issue en el repositorio o contacta al equipo de desarrollo.
+
