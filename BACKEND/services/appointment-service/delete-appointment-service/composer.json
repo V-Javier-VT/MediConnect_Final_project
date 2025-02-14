@@ -1,5 +1,5 @@
 {
-    "name": "javi/get-appointment-service",
+    "name": "javi/delete-appointment-service",
     "autoload": {
         "psr-4": {
             "Javi\\GetAppointmentService\\": "src/"
