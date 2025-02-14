@@ -1,0 +1,67 @@
+name: Build and Push Microservices and Frontend to Docker Hub
+
+on:
+  push:
+    branches:
+      - features/orderFiles  # Se ejecutará solo en esta rama
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout del código
+        uses: actions/checkout@v3
+
+      - name: 🔑 Login en Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: 🛠️ Construir y subir imágenes de microservicios
+        run: |
+          # Listado de microservicios y sus rutas
+          SERVICES=(
+            "auth-user-service"
+            "create-user-service"
+            "get-user-service"
+            "update-user-service"
+            "delete-user-service"
+            "get-all-users-service"
+            "create-patient-service"
+            "get-patient-service"
+            "update-patient-service"
+            "delete-patient-service"
+            "get-patients-service"
+            "create-doctor-service"
+            "get-doctor-service"
+            "update-doctor-service"
+            "delete-doctor-service"
+            "get-doctors-service"
+            "create-appointment-service"
+            "get-appointment-service"
+            "update-appointment-service"
+            "delete-appointment-service"
+            "get-all-appointments-service"
+            "create-medical-history-service"
+            "get-medical-history"
+            "update-medical-history-service"
+            "delete-medical-history-service"
+            "get-medical-history-by-name"
+          )
+
+          # Construir y subir cada microservicio
+          for SERVICE in "${SERVICES[@]}"; do
+            echo "🛠️ Construyendo $SERVICE en BACKEND/services/$SERVICE"
+            docker build -t ${{ secrets.DOCKER_USERNAME }}/$SERVICE:latest ./BACKEND/services/$SERVICE
+            echo "⬆️ Subiendo $SERVICE a Docker Hub"
+            docker push ${{ secrets.DOCKER_USERNAME }}/$SERVICE:latest
+          done
+
+      - name: 🌐 Construir y subir el frontend
+        run: |
+          echo "🚀 Construyendo frontend en FRONTEND/"
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/frontend:latest ./FRONTEND
+          echo "⬆️ Subiendo frontend a Docker Hub"
+          docker push ${{ secrets.DOCKER_USERNAME }}/frontend:latest
