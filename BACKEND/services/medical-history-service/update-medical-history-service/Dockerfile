@@ -1,5 +1,5 @@
 # Etapa de construcción
-FROM golang:1.23.6-alpine AS builder
+FROM golang:1.23.6
 
 WORKDIR /app
 
