@@ -20,14 +20,14 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd /home/ec2-user/app
-            docker compose down
+            docker-compose down
             docker pull vjvergara/auth-user-service:latest
             docker pull vjvergara/create-user-service:latest
             docker pull vjvergara/get-user-service:latest
             docker pull vjvergara/update-user-service:latest
             docker pull vjvergara/delete-user-service:latest
             docker pull vjvergara/get-all-users-service:latest
-            docker compose up -d
+            docker-compose up -d
 
   deploy-instance-2:
     runs-on: ubuntu-latest
@@ -43,7 +43,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd /home/ec2-user/app
-            docker compose down
+            docker-compose down
             docker pull vjvergara/create-patient-service:latest
             docker pull vjvergara/get-patient-service:latest
             docker pull vjvergara/update-patient-service:latest
@@ -54,7 +54,7 @@ jobs:
             docker pull vjvergara/update-doctor-service:latest
             docker pull vjvergara/delete-doctor-service:latest
             docker pull vjvergara/get-doctors-service:latest
-            docker compose up -d
+            docker-compose up -d
 
   deploy-instance-3:
     runs-on: ubuntu-latest
@@ -70,7 +70,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd /home/ec2-user/app
-            docker compose down
+            docker-compose down
             docker pull vjvergara/create-appointment-service:latest
             docker pull vjvergara/get-appointment-service:latest
             docker pull vjvergara/update-appointment-service:latest
@@ -81,4 +81,4 @@ jobs:
             docker pull vjvergara/update-medical-history-service:latest
             docker pull vjvergara/delete-medical-history-service:latest
             docker pull vjvergara/get-medical-history-by-name-service:latest
-            docker compose up -d
+            docker-compose up -d
