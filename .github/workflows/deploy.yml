@@ -3,7 +3,7 @@ name: Deploy Microservices to Multiple EC2 Instances
 on:
   push:
     branches:
-      - features/orderFiles  # Se ejecuta cuando haces push en esta rama
+      - features/orderFiles  # O la rama donde realizas el despliegue
 
 jobs:
   deploy-instance-1:
@@ -19,15 +19,22 @@ jobs:
           username: ec2-user
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            mkdir -p /home/ec2-user/app
             cd /home/ec2-user/app
-            docker-compose down
+            docker stop $(docker ps -q) || true
+            docker system prune -af || true
             docker pull vjvergara/auth-user-service:latest
             docker pull vjvergara/create-user-service:latest
             docker pull vjvergara/get-user-service:latest
             docker pull vjvergara/update-user-service:latest
             docker pull vjvergara/delete-user-service:latest
             docker pull vjvergara/get-all-users-service:latest
-            docker-compose up -d
+            docker run -d --restart unless-stopped --name auth-user-service -p 1001:1001 vjvergara/auth-user-service:latest
+            docker run -d --restart unless-stopped --name create-user-service -p 6001:6001 vjvergara/create-user-service:latest
+            docker run -d --restart unless-stopped --name get-user-service -p 6002:6002 vjvergara/get-user-service:latest
+            docker run -d --restart unless-stopped --name update-user-service -p 6003:6003 vjvergara/update-user-service:latest
+            docker run -d --restart unless-stopped --name delete-user-service -p 6004:6004 vjvergara/delete-user-service:latest
+            docker run -d --restart unless-stopped --name get-all-users-service -p 6005:6005 vjvergara/get-all-users-service:latest
 
   deploy-instance-2:
     runs-on: ubuntu-latest
@@ -42,8 +49,10 @@ jobs:
           username: ec2-user
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            mkdir -p /home/ec2-user/app
             cd /home/ec2-user/app
-            docker-compose down
+            docker stop $(docker ps -q) || true
+            docker system prune -af || true
             docker pull vjvergara/create-patient-service:latest
             docker pull vjvergara/get-patient-service:latest
             docker pull vjvergara/update-patient-service:latest
@@ -54,7 +63,16 @@ jobs:
             docker pull vjvergara/update-doctor-service:latest
             docker pull vjvergara/delete-doctor-service:latest
             docker pull vjvergara/get-doctors-service:latest
-            docker-compose up -d
+            docker run -d --restart unless-stopped --name create-patient-service -p 3005:3005 vjvergara/create-patient-service:latest
+            docker run -d --restart unless-stopped --name get-patient-service -p 3004:3004 vjvergara/get-patient-service:latest
+            docker run -d --restart unless-stopped --name update-patient-service -p 3007:3007 vjvergara/update-patient-service:latest
+            docker run -d --restart unless-stopped --name delete-patient-service -p 3008:3008 vjvergara/delete-patient-service:latest
+            docker run -d --restart unless-stopped --name get-patients-service -p 3003:3003 vjvergara/get-patients-service:latest
+            docker run -d --restart unless-stopped --name create-doctor-service -p 4001:4001 vjvergara/create-doctor-service:latest
+            docker run -d --restart unless-stopped --name get-doctor-service -p 4003:4003 vjvergara/get-doctor-service:latest
+            docker run -d --restart unless-stopped --name update-doctor-service -p 4004:4004 vjvergara/update-doctor-service:latest
+            docker run -d --restart unless-stopped --name delete-doctor-service -p 4005:4005 vjvergara/delete-doctor-service:latest
+            docker run -d --restart unless-stopped --name get-doctors-service -p 4002:4002 vjvergara/get-doctors-service:latest
 
   deploy-instance-3:
     runs-on: ubuntu-latest
@@ -69,8 +87,10 @@ jobs:
           username: ec2-user
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            mkdir -p /home/ec2-user/app
             cd /home/ec2-user/app
-            docker-compose down
+            docker stop $(docker ps -q) || true
+            docker system prune -af || true
             docker pull vjvergara/create-appointment-service:latest
             docker pull vjvergara/get-appointment-service:latest
             docker pull vjvergara/update-appointment-service:latest
@@ -81,4 +101,13 @@ jobs:
             docker pull vjvergara/update-medical-history-service:latest
             docker pull vjvergara/delete-medical-history-service:latest
             docker pull vjvergara/get-medical-history-by-name-service:latest
-            docker-compose up -d
+            docker run -d --restart unless-stopped --name create-appointment-service -p 5001:5001 vjvergara/create-appointment-service:latest
+            docker run -d --restart unless-stopped --name get-appointment-service -p 5002:5002 vjvergara/get-appointment-service:latest
+            docker run -d --restart unless-stopped --name update-appointment-service -p 5003:5003 vjvergara/update-appointment-service:latest
+            docker run -d --restart unless-stopped --name delete-appointment-service -p 5004:5004 vjvergara/delete-appointment-service:latest
+            docker run -d --restart unless-stopped --name get-all-appointments-service -p 5005:5005 vjvergara/get-all-appointments-service:latest
+            docker run -d --restart unless-stopped --name create-medical-history-service -p 7001:7001 vjvergara/create-medical-history-service:latest
+            docker run -d --restart unless-stopped --name get-medical-history-service -p 7002:7002 vjvergara/get-medical-history-service:latest
+            docker run -d --restart unless-stopped --name update-medical-history-service -p 7003:7003 vjvergara/update-medical-history-service:latest
+            docker run -d --restart unless-stopped --name delete-medical-history-service -p 7004:7004 vjvergara/delete-medical-history-service:latest
+            docker run -d --restart unless-stopped --name get-medical-history-by-name-service -p 7005:7005 vjvergara/get-medical-history-by-name-service:latest
