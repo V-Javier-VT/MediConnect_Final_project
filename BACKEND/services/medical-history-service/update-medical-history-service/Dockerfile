@@ -3,35 +3,32 @@ FROM golang:1.23.6-alpine AS builder
 
 WORKDIR /app
 
-# Instalar dependencias necesarias para compilación en Alpine
-RUN apk add --no-cache git
-
-# Copiar archivos de módulos y descargar dependencias
+# Copiar archivos y descargar dependencias
 COPY go.mod go.sum ./
 RUN go mod download
 
 # Copiar el código fuente
 COPY . .
 
-# Configurar variables para evitar dependencias C en Alpine
-ENV CGO_ENABLED=0
+# Compilar la aplicación
+RUN go build -o get-medical-history-by-name ./src/main.go
 
-# Compilar el binario
-RUN go build -o update-medical-history-service ./src/main.go
-
-# Etapa final (imagen liviana para producción)
+# Etapa final (imagen liviana para ejecución)
 FROM alpine:latest
 
 WORKDIR /app
 
-# Copiar el binario compilado desde la etapa anterior
-COPY --from=builder /app/update-medical-history-service .
+# Instalar dependencias necesarias para la ejecución
+RUN apk --no-cache add ca-certificates
 
-# Dar permisos de ejecución al binario
-RUN chmod +x /app/update-medical-history-service
+# Copiar el binario desde la etapa de construcción
+COPY --from=builder /app/get-medical-history-by-name /app/get-medical-history-by-name
+
+# Dar permisos de ejecución
+RUN chmod +x /app/get-medical-history-by-name
 
 # Exponer el puerto del servicio
 EXPOSE 7003
 
-# Ejecutar el binario
-CMD ["/app/update-medical-history-service"]
+# Definir el punto de entrada del contenedor
+ENTRYPOINT ["/app/get-medical-history-by-name"]

@@ -11,21 +11,24 @@ RUN go mod download
 COPY . .
 
 # Compilar la aplicación
-RUN go build -o /app/get-medical-history-service ./src/main.go
+RUN go build -o get-medical-history-by-name ./src/main.go
 
 # Etapa final (imagen liviana para ejecución)
 FROM alpine:latest
 
 WORKDIR /app
 
+# Instalar dependencias necesarias para la ejecución
+RUN apk --no-cache add ca-certificates
+
 # Copiar el binario desde la etapa de construcción
-COPY --from=builder /app/get-medical-history-service .
+COPY --from=builder /app/get-medical-history-by-name /app/get-medical-history-by-name
 
 # Dar permisos de ejecución
-RUN chmod +x /app/get-medical-history-service
+RUN chmod +x /app/get-medical-history-by-name
 
 # Exponer el puerto del servicio
 EXPOSE 7002
 
-# Ejecutar el binario
-CMD ["/app/get-medical-history-service"]
+# Definir el punto de entrada del contenedor
+ENTRYPOINT ["/app/get-medical-history-by-name"]

@@ -1,24 +1,34 @@
-# Utiliza una imagen base ligera de Go
-FROM golang:1.23.6
+# Etapa de construcción
+FROM golang:1.23.6-alpine AS builder
 
-# Establecer el directorio de trabajo dentro del contenedor
 WORKDIR /app
 
-# Copiar los archivos del proyecto al contenedor
+# Copiar archivos y descargar dependencias
 COPY go.mod go.sum ./
 RUN go mod download
 
-# Copiar el resto del código fuente del microservicio
+# Copiar el código fuente
 COPY . .
 
 # Compilar la aplicación
-RUN go build -o delete-medical-history-service ./src/main.go
+RUN go build -o get-medical-history-by-name ./src/main.go
 
-# Especificar el puerto en el que corre la aplicación
+# Etapa final (imagen liviana para ejecución)
+FROM alpine:latest
+
+WORKDIR /app
+
+# Instalar dependencias necesarias para la ejecución
+RUN apk --no-cache add ca-certificates
+
+# Copiar el binario desde la etapa de construcción
+COPY --from=builder /app/get-medical-history-by-name /app/get-medical-history-by-name
+
+# Dar permisos de ejecución
+RUN chmod +x /app/get-medical-history-by-name
+
+# Exponer el puerto del servicio
 EXPOSE 7004
 
-# Configurar las variables de entorno
-ENV PORT=7004
-
-# Ejecutar la aplicación
-CMD ["/app/delete-medical-history-service"]
+# Definir el punto de entrada del contenedor
+ENTRYPOINT ["/app/get-medical-history-by-name"]
