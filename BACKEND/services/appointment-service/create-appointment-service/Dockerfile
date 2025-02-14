@@ -5,7 +5,12 @@ FROM php:8.1-cli
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     default-mysql-client \
-    && docker-php-ext-install pdo pdo_mysql pdo_pgsql
+    && docker-php-ext-install pdo pdo_mysql pdo_pgsql\
+    git \
+    unzip \
+    zip \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
 
 # Instala Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
