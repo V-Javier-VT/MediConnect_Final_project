@@ -1,0 +1,84 @@
+name: Deploy Microservices to Multiple EC2 Instances
+
+on:
+  push:
+    branches:
+      - features/orderFiles  # Se ejecuta cuando haces push en esta rama
+
+jobs:
+  deploy-instance-1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v3
+
+      - name: Conectarse y desplegar en Instancia 1 (Usuarios y Autenticación)
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST_1 }}
+          username: ec2-user
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd /home/ec2-user/app
+            docker compose down
+            docker pull vjvergara/auth-user-service:latest
+            docker pull vjvergara/create-user-service:latest
+            docker pull vjvergara/get-user-service:latest
+            docker pull vjvergara/update-user-service:latest
+            docker pull vjvergara/delete-user-service:latest
+            docker pull vjvergara/get-all-users-service:latest
+            docker compose up -d
+
+  deploy-instance-2:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v3
+
+      - name: Conectarse y desplegar en Instancia 2 (Gestión de Pacientes y Doctores)
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST_2 }}
+          username: ec2-user
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd /home/ec2-user/app
+            docker compose down
+            docker pull vjvergara/create-patient-service:latest
+            docker pull vjvergara/get-patient-service:latest
+            docker pull vjvergara/update-patient-service:latest
+            docker pull vjvergara/delete-patient-service:latest
+            docker pull vjvergara/get-patients-service:latest
+            docker pull vjvergara/create-doctor-service:latest
+            docker pull vjvergara/get-doctor-service:latest
+            docker pull vjvergara/update-doctor-service:latest
+            docker pull vjvergara/delete-doctor-service:latest
+            docker pull vjvergara/get-doctors-service:latest
+            docker compose up -d
+
+  deploy-instance-3:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v3
+
+      - name: Conectarse y desplegar en Instancia 3 (Citas Médicas e Historias Clínicas)
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST_3 }}
+          username: ec2-user
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd /home/ec2-user/app
+            docker compose down
+            docker pull vjvergara/create-appointment-service:latest
+            docker pull vjvergara/get-appointment-service:latest
+            docker pull vjvergara/update-appointment-service:latest
+            docker pull vjvergara/delete-appointment-service:latest
+            docker pull vjvergara/get-all-appointments-service:latest
+            docker pull vjvergara/create-medical-history-service:latest
+            docker pull vjvergara/get-medical-history-service:latest
+            docker pull vjvergara/update-medical-history-service:latest
+            docker pull vjvergara/delete-medical-history-service:latest
+            docker pull vjvergara/get-medical-history-by-name-service:latest
+            docker compose up -d
