@@ -22,7 +22,7 @@ WORKDIR /var/www/html
 COPY . .
 
 # Instala las dependencias de Composer
-RUN composer install --no-dev --optimize-autoloader --ignore-platform-reqs
+RUN composer install --no-dev --optimize-autoloader
 
 # Asegura que el archivo .env esté presente y con permisos adecuados
 COPY .env /var/www/html/.env
