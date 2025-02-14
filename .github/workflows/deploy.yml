@@ -110,4 +110,4 @@ jobs:
             docker run -d --restart unless-stopped --name get-medical-history-service -p 7002:7002 vjvergara/get-medical-history-service:latest
             docker run -d --restart unless-stopped --name update-medical-history-service -p 7003:7003 vjvergara/update-medical-history-service:latest
             docker run -d --restart unless-stopped --name delete-medical-history-service -p 7004:7004 vjvergara/delete-medical-history-service:latest
-            docker run -d --restart unless-stopped --name get-medical-history-by-name -p 7005:7005 vjvergara/get-medical-history-by-name-service:latest
+            docker run -d --restart unless-stopped --name get-medical-history-by-name -p 7005:7005 vjvergara/get-medical-history-by-name:latest
