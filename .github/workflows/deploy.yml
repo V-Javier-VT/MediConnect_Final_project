@@ -20,43 +20,51 @@ jobs:
 
       - name: 🛠️ Construir y subir imágenes de microservicios
         run: |
-          # Listado de microservicios y sus rutas
-          SERVICES=(
-            "appointment-service/create-appointment-service"
-            "appointment-service/delete-appointment-service"
-            "appointment-service/get-all-appointments-service"
-            "appointment-service/get-appointment-service"
-            "appointment-service/update-appointment-service"
-            "auth-user-service"
-            "doctor-service/create-doctor-service"
-            "doctor-service/delete-doctor-service"
-            "doctor-service/get-doctor-service"
-            "doctor-service/get-doctors-service"
-            "doctor-service/update-doctor-service"
-            "medical-history-service/create-medical-history-service"
-            "medical-history-service/delete-medical-history-service"
-            "medical-history-service/get-medical-history"
-            "medical-history-service/get-medical-history-by-name"
-            "medical-history-service/update-medical-history-service"
-            "patient-service/create-patient-service"
-            "patient-service/delete-patient-service"
-            "patient-service/get-patient-service"
-            "patient-service/get-patients-service"
-            "patient-service/update-patient-service"
-            "user-service/create-user-service"
-            "user-service/delete-user-service"
-            "user-service/get-all-users-service"
-            "user-service/get-user-service"
-            "user-service/update-user-service"
-          )
-
-          # Construir y subir cada microservicio
-          for SERVICE in "${SERVICES[@]}"; do
-            echo "🛠️ Construyendo $SERVICE en BACKEND/services/$SERVICE"
-            docker build -t ${{ secrets.DOCKER_USERNAME }}/$SERVICE:latest ./BACKEND/services/$SERVICE
-            echo "⬆️ Subiendo $SERVICE a Docker Hub"
-            docker push ${{ secrets.DOCKER_USERNAME }}/$SERVICE:latest
-          done
+            # Definir el usuario de Docker Hub desde los secretos
+            export DOCKER_USER=${{ secrets.DOCKER_USERNAME }}
+        
+            # Listado de microservicios y sus rutas
+            SERVICES=(
+              "appointment-service/create-appointment-service"
+              "appointment-service/delete-appointment-service"
+              "appointment-service/get-all-appointments-service"
+              "appointment-service/get-appointment-service"
+              "appointment-service/update-appointment-service"
+              "auth-user-service"
+              "doctor-service/create-doctor-service"
+              "doctor-service/delete-doctor-service"
+              "doctor-service/get-doctor-service"
+              "doctor-service/get-doctors-service"
+              "doctor-service/update-doctor-service"
+              "medical-history-service/create-medical-history-service"
+              "medical-history-service/delete-medical-history-service"
+              "medical-history-service/get-medical-history"
+              "medical-history-service/get-medical-history-by-name"
+              "medical-history-service/update-medical-history-service"
+              "patient-service/create-patient-service"
+              "patient-service/delete-patient-service"
+              "patient-service/get-patient-service"
+              "patient-service/get-patients-service"
+              "patient-service/update-patient-service"
+              "user-service/create-user-service"
+              "user-service/delete-user-service"
+              "user-service/get-all-users-service"
+              "user-service/get-user-service"
+              "user-service/update-user-service"
+            )
+        
+            # Construir y subir cada microservicio
+            for SERVICE in "${SERVICES[@]}"; do
+              echo "🛠️ Construyendo $SERVICE en BACKEND/services/$SERVICE"
+              if [ ! -d "./BACKEND/services/$SERVICE" ]; then
+                echo "❌ Error: La ruta ./BACKEND/services/$SERVICE no existe"
+                exit 1
+              fi
+              docker build -t $DOCKER_USER/$(basename $SERVICE):latest ./BACKEND/services/$SERVICE
+              echo "⬆️ Subiendo $(basename $SERVICE) a Docker Hub"
+              docker push $DOCKER_USER/$(basename $SERVICE):latest
+            done
+        
 
       - name: Conectarse y desplegar en Instancia 1 (Usuarios y Autenticación)
         uses: appleboy/ssh-action@master
