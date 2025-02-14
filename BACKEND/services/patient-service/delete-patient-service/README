@@ -1,0 +1,75 @@
+
+```markdown
+# Delete Patient Service
+
+Este microservicio permite eliminar pacientes de una base de datos MySQL utilizando Node.js, Express y MySQL2.
+
+## Tecnologías utilizadas
+
+- Node.js
+- Express.js
+- MySQL2
+- Docker
+
+## Instalación y ejecución
+
+### Instalar dependencias
+
+```sh
+npm install
+```
+
+### Ejecutar en modo local
+
+```sh
+npm run dev
+```
+
+### Construir y ejecutar con Docker
+
+```sh
+docker build -t delete-patient-service .
+docker run -p 3008:3008 --env-file .env delete-patient-service
+```
+
+## Endpoints
+
+### Eliminar un paciente por ID
+
+```http
+DELETE /api/patients/:id
+```
+
+#### 📌 Ejemplo de solicitud:
+
+```sh
+curl -X DELETE http://localhost:3008/api/patients/1
+```
+
+#### 📥 Respuesta esperada:
+
+```json
+{
+  "message": "Paciente eliminado exitosamente"
+}
+```
+
+#### ❌ Posibles errores:
+
+- `404 Not Found`: Paciente no encontrado en la base de datos.
+- `500 Internal Server Error`: Error al conectar con la base de datos.
+
+
+## Estructura del Proyecto
+
+```
+delete-patient-service/
+│── src/
+│   ├── controllers/            # Controladores de rutas
+│   ├── database.js             # Configuración de conexión a MySQL
+│   ├── app.js                  # Configuración del servidor Express
+│── Dockerfile                  # Archivo para crear la imagen Docker
+│── package.json                # Dependencias y scripts
+│── .env                        # Variables de entorno
+│── README.md                   # Documentación
+```

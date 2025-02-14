@@ -1,28 +1,23 @@
-# Usa la imagen base de Node.js
-FROM node:18
+# Usar una imagen base de Node.js
+FROM node:18-alpine
 
-# Establece el directorio de trabajo dentro del contenedor
+# Establecer el directorio de trabajo dentro del contenedor
 WORKDIR /app
 
-# Copia los archivos de la aplicación
-COPY package*.json ./
+# Copiar los archivos de configuración y dependencias
+COPY package.json package-lock.json ./
 
-# Instala las dependencias de la aplicación
-RUN npm install
+# Instalar dependencias
+RUN npm install --omit=dev
 
-# Copia el resto del código de la aplicación
+# Copiar el resto del código fuente del microservicio
 COPY . .
 
-# Expone el puerto del servicio
+# Exponer el puerto del servicio
 EXPOSE 3007
 
-# Define las variables de entorno
-ENV PORT=3007
-ENV MYSQL_HOST=patient-db.cajdo4m5i9g7.us-east-1.rds.amazonaws.com
-ENV MYSQL_PORT=3306
-ENV MYSQL_USER=admin
-ENV MYSQL_PASSWORD=admin123
-ENV MYSQL_DATABASE=RDSMYSQL
+# Definir las variables de entorno
+ENV NODE_ENV=production
 
-# Comando para ejecutar la aplicación
-CMD ["npm", "start"]
+# Ejecutar la aplicación
+CMD ["node", "src/app.js"]

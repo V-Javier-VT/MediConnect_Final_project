@@ -17,10 +17,7 @@ Este microservicio permite obtener historiales médicos desde una base de datos 
 
 ### Clonar el repositorio
 
-```sh
-git clone https://github.com/tu-usuario/get-medical-history-service.git
-cd get-medical-history-service
-```
+
 
 ### Instalar dependencias
 

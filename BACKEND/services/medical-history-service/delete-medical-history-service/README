@@ -13,12 +13,7 @@ Este microservicio permite eliminar historiales médicos en una base de datos Ma
 
 ## Instalación y ejecución
 
-### Clonar el repositorio
-
-```sh
-git clone https://github.com/tu-usuario/delete-medical-history-service.git
-cd delete-medical-history-service
-```
+#
 
 ### Instalar dependencias
 
@@ -82,12 +77,3 @@ delete-medical-history-service/
 │── README.md                    # Documentación
 ```
 
-## Mejoras futuras
-
-- Implementar autenticación y autorización.
-- Registro de logs en una plataforma de monitoreo.
-- Pruebas unitarias y de integración.
-
-## Licencia
-
-Este proyecto está bajo la licencia **MIT**.

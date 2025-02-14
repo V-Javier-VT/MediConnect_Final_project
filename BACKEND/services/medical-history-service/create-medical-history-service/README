@@ -15,11 +15,7 @@ Este microservicio permite la gestión de historiales médicos dentro de la plat
 
 ## Instalación y configuración
 
-### 1. Clonar el repositorio
-```sh
-    git clone <repositorio>
-    cd medical-history-service
-```
+
 
 ### 3. Ejecutar el servicio localmente
 

@@ -1,0 +1,83 @@
+# Get Patients Service
+
+Este microservicio permite obtener la lista de todos los pacientes desde una base de datos MySQL utilizando Node.js, Express y MySQL2.
+
+## Tecnologías utilizadas
+
+- Node.js
+- Express.js
+- MySQL2
+- Docker
+
+## Instalación y ejecución
+
+### Instalar dependencias
+
+```sh
+npm install
+```
+
+### Ejecutar en modo local
+
+```sh
+npm run dev
+```
+
+### Construir y ejecutar con Docker
+
+```sh
+docker build -t get-patients-service .
+docker run -p 3003:3003 --env-file .env get-patients-service
+```
+
+## Endpoints
+
+### Obtener la lista de pacientes
+
+```http
+GET /api/patients
+```
+
+#### 📌 Ejemplo de solicitud:
+
+```sh
+curl -X GET http://localhost:3003/api/patients
+```
+
+#### 📥 Respuesta esperada:
+
+```json
+[
+  {
+    "id": 1,
+    "name": "Juan Pérez",
+    "age": 30,
+    "gender": "Male",
+    "email": "juanperez@example.com"
+  },
+  {
+    "id": 2,
+    "name": "Maria Gómez",
+    "age": 25,
+    "gender": "Female",
+    "email": "mariagomez@example.com"
+  }
+]
+```
+
+#### ❌ Posibles errores:
+
+- `500 Internal Server Error`: Error al conectar con la base de datos.
+
+## Estructura del Proyecto
+
+```
+get-patients-service/
+│── src/
+│   ├── controllers/            # Controladores de rutas
+│   ├── database.js             # Configuración de conexión a MySQL
+│   ├── app.js                  # Configuración del servidor Express
+│── Dockerfile                  # Archivo para crear la imagen Docker
+│── package.json                # Dependencias y scripts
+│── README.md                   # Documentación
+```

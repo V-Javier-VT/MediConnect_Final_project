@@ -1,0 +1,82 @@
+
+```markdown
+# Create Patient Service
+
+Este microservicio permite registrar pacientes en una base de datos MySQL utilizando Node.js, Express y MySQL2.
+
+## Tecnologías utilizadas
+
+- Node.js
+- Express.js
+- MySQL2
+- Docker
+
+## Instalación y ejecución
+
+### Instalar dependencias
+
+```sh
+npm install
+```
+
+### Ejecutar en modo local
+
+```sh
+npm run dev
+```
+
+### Construir y ejecutar con Docker
+
+```sh
+docker build -t create-patient-service .
+docker run -p 3005:3005 --env-file .env create-patient-service
+```
+
+## Endpoints
+
+### Crear un nuevo paciente
+
+```http
+POST /api/patients
+```
+
+#### 📌 Ejemplo de solicitud:
+
+```sh
+curl -X POST http://localhost:3005/api/patients \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Juan Pérez",
+    "age": 30,
+    "gender": "Male",
+    "email": "juanperez@example.com"
+  }'
+```
+
+#### 📥 Respuesta esperada:
+
+```json
+{
+  "message": "Paciente creado exitosamente",
+  "patientId": 1
+}
+```
+
+#### ❌ Posibles errores:
+
+- `400 Bad Request`: Datos inválidos o campos obligatorios faltantes.
+- `500 Internal Server Error`: Error al conectar con la base de datos.
+
+## Estructura del Proyecto
+
+```
+create-patient-service/
+│── src/
+│   ├── controllers/            # Controladores de rutas
+│   ├── database.js             # Configuración de conexión a MySQL
+│   ├── app.js                  # Configuración del servidor Express
+│── Dockerfile                  # Archivo para crear la imagen Docker
+│── package.json                # Dependencias y scripts
+│── .env                        # Variables de entorno
+│── README.md                   # Documentación
+```
