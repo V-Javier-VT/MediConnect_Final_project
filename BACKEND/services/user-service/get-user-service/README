@@ -1,0 +1,64 @@
+# Get User Service
+
+Este microservicio permite obtener la información de un usuario específico almacenado en la base de datos.
+
+## 🚀 Instalación y Configuración
+
+### 2. Instalación de dependencias
+Navega al directorio del microservicio y ejecuta:
+```sh
+npm install
+```
+Esto instalará todas las dependencias necesarias.
+
+### 3. Configuración del entorno
+Asegúrate de tener un archivo `.env` en la raíz del servicio con el siguiente contenido:
+```ini
+PORT=6002
+MYSQL_HOST=doctoryp.cajdo4m5i9g7.us-east-1.rds.amazonaws.com
+MYSQL_PORT=3306
+MYSQL_USER=admin
+MYSQL_PASSWORD=admin123
+MYSQL_DATABASE=doctoryp
+```
+Modifica los valores según la configuración de tu base de datos.
+
+## 🛠️ Uso
+
+### 1. Ejecutar en modo desarrollo
+Para correr el servicio en modo desarrollo:
+```sh
+npm run dev
+```
+Esto iniciará el servidor y aplicará cambios automáticamente cuando edites los archivos.
+
+### 2. Ejecutar en modo producción
+Para correr el servicio en producción:
+```sh
+npm start
+```
+
+### 3. Construcción y ejecución con Docker
+Si deseas correr el microservicio en un contenedor Docker, sigue estos pasos:
+```sh
+# Construir la imagen
+docker build -t get-user-service .
+
+# Ejecutar el contenedor
+docker run -p 6002:6002 get-user-service
+```
+
+## 📌 Endpoints Disponibles
+
+### Obtener usuario por ID
+**GET** `/get-user-service/users/get/:id`
+
+**Ejemplo de respuesta:**
+```json
+{
+  "id": 1,
+  "name": "Juan Pérez",
+  "email": "juan@example.com",
+  "role": "admin"
+}
+```

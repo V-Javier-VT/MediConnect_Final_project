@@ -1,0 +1,81 @@
+# Microservicio de Eliminación de Usuarios
+
+## Descripción
+Este microservicio permite eliminar usuarios de una base de datos MySQL mediante una API REST. Está desarrollado con Node.js, Express y usa MySQL para la gestión de datos.
+
+## Tecnologías Utilizadas
+- Node.js
+- Express.js
+- MySQL
+- Dotenv
+
+## Estructura del Proyecto
+```
+backend/
+│── services/
+│   ├── user-service/
+│   │   ├── delete-user-service/
+│   │   │   ├── src/
+│   │   │   │   ├── controllers/    # Lógica del servicio
+│   │   │   │   ├── models/         # Modelos de datos y conexión a MySQL
+│   │   │   │   ├── routes/         # Definición de rutas API
+│   │   │   │   ├── db.js           # Configuración de la base de datos
+│   │   │   │   ├── main.js         # Punto de entrada del microservicio
+```
+
+## Configuración del Entorno
+
+### Requisitos Previos
+- Node.js instalado
+- MySQL en ejecución
+- Archivo `.env` con las credenciales de la base de datos
+
+
+## Instalación y Ejecución
+
+
+### 2. Instalar dependencias
+```sh
+npm install
+```
+
+### 3. Configurar variables de entorno
+```sh
+cp .env.example .env
+# Editar el archivo .env con los valores correctos
+```
+
+### 4. Ejecutar el microservicio
+```sh
+npm start
+```
+El servicio estará disponible en PUERTO: 6004
+
+## Endpoints Disponibles
+
+### Eliminar un Usuario
+**DELETE** `/delete/:id`
+
+#### Cuerpo de la solicitud
+No requiere cuerpo, el ID del usuario se pasa en la URL.
+
+#### Respuesta exitosa (200)
+```json
+{
+    "message": "Usuario eliminado exitosamente"
+}
+```
+
+#### Respuesta si el usuario no existe (404)
+```json
+{
+    "error": "Usuario no encontrado"
+}
+```
+
+#### Respuesta en caso de error interno (500)
+```json
+{
+    "error": "No se pudo eliminar el usuario"
+}
+```

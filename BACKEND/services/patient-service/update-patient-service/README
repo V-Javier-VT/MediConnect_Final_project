@@ -1,0 +1,92 @@
+# Update Patient Service
+
+## Descripción
+Este microservicio permite actualizar la información de un paciente en la base de datos. Está desarrollado con **Node.js**, **Express.js** y utiliza **MySQL** como base de datos.
+
+## Tecnologías
+- Node.js
+- Express.js
+- MySQL2
+- Docker
+- Dotenv
+
+## Instalación y Ejecución
+
+### 1. Construcción de la imagen Docker
+Para construir la imagen de Docker, ejecutar el siguiente comando en la raíz del proyecto:
+
+```sh
+docker build -t update-patient-service .
+```
+
+### 2. Ejecutar el contenedor
+Ejecutar el siguiente comando para iniciar el contenedor en segundo plano:
+
+```sh
+docker run -d -p 3007:3007 --name update-patient-container update-patient-service
+```
+
+### 3. Verificar que el contenedor esté corriendo
+
+```sh
+docker ps
+```
+
+Si deseas ver los logs del contenedor:
+
+```sh
+docker logs -f update-patient-container
+```
+
+## Uso del Servicio
+
+### **Actualizar un paciente**
+Realizar una petición **PUT** a la siguiente URL:
+
+```
+http://localhost:3007/api/patients/:id
+```
+
+#### **Ejemplo de Request (JSON)**
+
+```json
+{
+  "name": "Juan Pérez",
+  "age": 30,
+  "gender": "M",
+  "email": "juanperez@example.com"
+}
+```
+
+#### **Ejemplo de Respuesta Exitosa (200 OK)**
+
+```json
+{
+  "message": "Paciente actualizado exitosamente"
+}
+```
+
+#### **Errores Posibles**
+- **400 Bad Request:** Si faltan campos obligatorios.
+- **404 Not Found:** Si el paciente no existe en la base de datos.
+- **500 Internal Server Error:** Si ocurre un problema en el servidor.
+
+## Detener y Eliminar Contenedor
+Para detener el contenedor:
+
+```sh
+docker stop update-patient-container
+```
+
+Para eliminar el contenedor:
+
+```sh
+docker rm update-patient-container
+```
+
+Si también deseas eliminar la imagen:
+
+```sh
+docker rmi update-patient-service
+```
+

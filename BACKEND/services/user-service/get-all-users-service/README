@@ -1,0 +1,89 @@
+# Microservicio: Get All Users Service
+
+Este microservicio proporciona una API para obtener la lista de todos los usuarios almacenados en la base de datos.
+
+## 📌 Tecnologías Utilizadas
+- Node.js
+- Express.js
+- MySQL
+- Docker
+- dotenv
+- cors
+
+## 📂 Estructura del Proyecto
+```
+get-all-users-service/
+├── src/
+│   ├── controllers/
+│   │   ├── userController.js
+│   ├── models/
+│   │   ├── db.js
+│   │   ├── userModel.js
+│   ├── routes/
+│   │   ├── userRoutes.js
+│   ├── index.js
+├── .env
+├── package.json
+├── Dockerfile
+```
+
+## 🚀 Instalación y Ejecución
+
+### 1️⃣ Instalación Manual
+```sh
+npm install
+```
+
+### 2️⃣ Ejecutar el Servidor en Desarrollo
+```sh
+npm start
+```
+
+### 3️⃣ Construcción y Ejecución con Docker
+#### 🔹 Construir la Imagen
+```sh
+docker build -t get-all-users-service .
+```
+
+#### 🔹 Ejecutar el Contenedor
+```sh
+docker run -d -p 6005:6005 --env-file .env --name get-all-users get-all-users-service
+```
+
+## 📌 Endpoints Disponibles
+
+### 📌 Obtener Todos los Usuarios
+- **Método:** `GET`
+- **URL:** `/get-all-users-service/users/all`
+- **Respuesta exitosa (200):**
+```json
+[
+  {
+    "id": 1,
+    "name": "Juan Pérez",
+    "email": "juan@example.com",
+    "role": "admin"
+  },
+  {
+    "id": 2,
+    "name": "Maria López",
+    "email": "maria@example.com",
+    "role": "user"
+  }
+]
+```
+
+## 🛠️ Mantenimiento y Debugging
+Para ver los logs del contenedor:
+```sh
+docker logs -f get-all-users
+```
+Para detener el contenedor:
+```sh
+docker stop get-all-users
+```
+Para eliminar el contenedor:
+```sh
+docker rm get-all-users
+```
+

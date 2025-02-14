@@ -1,0 +1,85 @@
+# Update User Service
+
+Este microservicio permite actualizar la información de un usuario en la base de datos.
+
+## Tecnologías Utilizadas
+- Node.js
+- Express.js
+- MySQL
+- Docker
+- Dotenv
+
+## Instalación y Ejecución
+
+### 1. Instalación de Dependencias
+Ejecuta el siguiente comando en la raíz del proyecto:
+```sh
+npm install
+```
+
+### 3. Construcción y Ejecución con Docker
+#### Construcción de la imagen:
+```sh
+docker build -t update-user-service .
+```
+
+#### Ejecución del contenedor:
+```sh
+docker run -p 6003:6003 --env-file .env update-user-service
+```
+
+## Endpoints
+
+### Actualizar un usuario
+**PUT** `/update-user-service/users/update/:id`
+#### Request Body:
+```json
+{
+  "name": "Nuevo Nombre",
+  "email": "nuevoemail@example.com",
+  "role": "admin"
+}
+```
+#### Respuesta Exitosa (200):
+```json
+{
+  "message": "Usuario actualizado exitosamente"
+}
+```
+
+#### Respuesta de Error (404 - Usuario no encontrado o sin cambios):
+```json
+{
+  "error": "Usuario no encontrado o sin cambios"
+}
+```
+
+#### Respuesta de Error (500 - Error interno del servidor):
+```json
+{
+  "error": "No se pudo actualizar el usuario"
+}
+```
+
+## Estructura del Proyecto
+```
+update-user-service/
+├── src/
+│   ├── controllers/
+│   │   ├── userController.js
+│   ├── models/
+│   │   ├── db.js
+│   │   ├── userModel.js
+│   ├── routes/
+│   │   ├── userRoutes.js
+│   ├── index.js
+├── .env
+├── Dockerfile
+├── package.json
+├── package-lock.json
+```
+
+## Notas
+- Asegúrate de que la base de datos MySQL esté en ejecución y accesible.
+- Si experimentas errores de conexión, revisa la configuración en el archivo `.env`.
+- Puedes probar el servicio utilizando herramientas como Postman o cURL.

@@ -1,0 +1,75 @@
+# Create User Service
+
+Este microservicio permite la creación de usuarios en la base de datos. Se conecta a una base de datos MySQL alojada en Amazon RDS y proporciona una API REST para la gestión de usuarios.
+
+## 📌 Requisitos previos
+
+- Node.js instalado
+- Docker (opcional, si se desea ejecutar en contenedor)
+- Base de datos MySQL configurada y accesible
+
+## 🚀 Instalación y ejecución
+
+### 1️⃣ Instalar dependencias
+Ejecuta el siguiente comando en la raíz del microservicio:
+
+```sh
+npm install
+```
+
+### 2️⃣ Ejecutar el servicio localmente
+Para iniciar el servicio en el puerto **6001**, usa:
+
+```sh
+npm start
+```
+
+Si deseas ejecutarlo en modo desarrollo con `nodemon`, usa:
+
+```sh
+npm run dev
+```
+
+## 🐳 Ejecución con Docker
+Si prefieres ejecutarlo en un contenedor Docker:
+
+### 1️⃣ Construir la imagen Docker
+```sh
+docker build -t create-user-service .
+```
+
+### 2️⃣ Ejecutar el contenedor
+```sh
+docker run -p 6001:6001 --env-file .env create-user-service
+```
+
+## 🌍 Endpoints
+
+### 📌 Crear un usuario
+**POST** `http://localhost:6001/create-user-service/users/create`
+
+#### 🔹 Cuerpo de la solicitud (JSON)
+```json
+{
+  "name": "John Doe",
+  "email": "johndoe@example.com",
+  "password": "123456",
+  "role": "user",
+  "reference_id": 1
+}
+```
+
+#### 🔹 Respuesta exitosa (201)
+```json
+{
+  "id": 1,
+  "message": "Usuario creado exitosamente"
+}
+```
+
+#### 🔹 Error en la solicitud (400 o 500)
+```json
+{
+  "message": "Todos los campos son obligatorios"
+}
+```
